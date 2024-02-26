@@ -1,4 +1,4 @@
-module Sampling
+module GridSpacing
 
 using LinearAlgebra
 

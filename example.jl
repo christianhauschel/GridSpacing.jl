@@ -1,8 +1,6 @@
 using Revise
-using Sampling
-using PyPlot, PyCall
-pplt = pyimport("proplot")
-pplt.close("all")
+using GridSpacing
+using Plots
 
 x0 = -1.0
 x1 = 1.0
@@ -16,16 +14,15 @@ x_conical = conical(x0, x1, n; type=type_conical, coeff=2)
 
 ids = LinRange(x0, x1, n)
 
-fig, ax = pplt.subplots(figsize=(6, 3))
-ax[1].plot(ids, LinRange(1, 1, n), ".", ms=2, label="uniform")
-ax[1].plot(x_cosine, LinRange(2, 2, n), ".", ms=2, label="cosine $type_cosine")
-ax[1].plot(x_conical, LinRange(3, 3, n), ".", ms=2, label="conical $type_conical")
-ax[1].plot(x_geometric, LinRange(4, 4, n), ".", ms=2, label="geometric")
-ax[1].set(
-    title="Sampling Methods",
+p = plot(
+    layout=(1, 1),
+    size=(600, 300),
     xlabel="x",
 )
-ax[1].legend(ncols=1)
-fig
 
-# fig.savefig("doc/img/sampling.png", dpi=300, bbox_inches="tight")
+plot!(p, ids, LinRange(1, 1, n), label="uniform", marker=:circle, ms=2)
+plot!(p, x_cosine, LinRange(2, 2, n), label="cosine $type_cosine", marker=:circle, ms=2)
+plot!(p, x_conical, LinRange(3, 3, n), label="conical $type_conical", marker=:circle, ms=2)
+plot!(p, x_geometric, LinRange(4, 4, n), label="geometric", marker=:circle, ms=2)
+
+savefig(p, "docs/src/assets/spacing.png")
